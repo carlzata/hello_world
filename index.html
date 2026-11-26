@@ -1,1 +1,1070 @@
-Adding new content
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08111f">
+  <title>Footwork Trainer</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg-soft: #101b2d;
+      --card: rgba(255, 255, 255, 0.08);
+      --card-strong: rgba(255, 255, 255, 0.14);
+      --line: rgba(255, 255, 255, 0.18);
+      --text: #f6f8fb;
+      --muted: #a8b3c7;
+      --accent: #78ff9a;
+      --accent-2: #62d8ff;
+      --danger: #ff7a7a;
+      --shadow: 0 28px 70px rgba(0, 0, 0, 0.4);
+      --radius: 28px;
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(98, 216, 255, 0.24), transparent 30rem),
+        radial-gradient(circle at 85% 5%, rgba(120, 255, 154, 0.18), transparent 24rem),
+        linear-gradient(135deg, #08111f 0%, #0b1527 52%, #111a2b 100%);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.48;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(320px, 1.05fr);
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.07));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .intro {
+      position: relative;
+      padding: 26px;
+      overflow: hidden;
+    }
+
+    .intro::after {
+      position: absolute;
+      right: -70px;
+      bottom: -95px;
+      width: 260px;
+      height: 260px;
+      content: "";
+      background: radial-gradient(circle, rgba(120, 255, 154, 0.22), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      margin: 0 0 22px;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(120, 255, 154, 0.1);
+      border: 1px solid rgba(120, 255, 154, 0.28);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 12ch;
+      margin: 0;
+      font-size: clamp(2.75rem, 8vw, 6.2rem);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+    }
+
+    .lead {
+      max-width: 620px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.16);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 8px;
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      line-height: 1;
+    }
+
+    .trainer {
+      display: grid;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .screen {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: min(72svh, 700px);
+      padding: clamp(16px, 3vw, 28px);
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)),
+        #07101d;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 24px;
+    }
+
+    .screen::before {
+      position: absolute;
+      inset: 16px;
+      content: "";
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    .court {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(84px, 1fr));
+      grid-template-rows: repeat(2, minmax(118px, 1fr));
+      width: min(100%, 610px);
+      min-height: clamp(300px, 48vw, 520px);
+      overflow: hidden;
+      border: 3px solid rgba(246, 248, 251, 0.78);
+      border-radius: 28px;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24), 0 26px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .court::before,
+    .court::after {
+      position: absolute;
+      z-index: 0;
+      content: "";
+      background: rgba(255, 255, 255, 0.38);
+      pointer-events: none;
+    }
+
+    .court::before {
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      transform: translateY(-50%);
+    }
+
+    .court::after {
+      top: 0;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .zone {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 116px;
+      color: rgba(255, 255, 255, 0.36);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
+      border-right: 2px solid rgba(255, 255, 255, 0.3);
+      font-size: clamp(2.2rem, 10vw, 5.3rem);
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .zone:nth-child(3),
+    .zone:nth-child(6) {
+      border-right: 0;
+    }
+
+    .zone.is-active {
+      color: #08111f;
+      background:
+        radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.7), transparent 40%),
+        linear-gradient(135deg, var(--accent), var(--accent-2));
+      transform: scale(1.03);
+    }
+
+    .zone.is-recent {
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(98, 216, 255, 0.14);
+    }
+
+    .center-card {
+      position: absolute;
+      z-index: 3;
+      display: grid;
+      place-items: center;
+      width: clamp(132px, 24vw, 210px);
+      height: clamp(132px, 24vw, 210px);
+      text-align: center;
+      pointer-events: none;
+      background: rgba(8, 17, 31, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 36px;
+      box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .main-number {
+      font-size: clamp(5rem, 17vw, 10rem);
+      font-weight: 950;
+      line-height: 0.82;
+      letter-spacing: -0.1em;
+    }
+
+    .center-label {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .countdown {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: none;
+      place-items: center;
+      font-size: clamp(7rem, 36vw, 19rem);
+      font-weight: 950;
+      letter-spacing: -0.12em;
+      background: rgba(8, 17, 31, 0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .countdown.is-visible {
+      display: grid;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 12px;
+    }
+
+    .actions,
+    .toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      min-height: 50px;
+      padding: 0 18px;
+      color: var(--text);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      font-weight: 850;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .btn:hover {
+      border-color: rgba(255, 255, 255, 0.32);
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      color: #07101d;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-color: transparent;
+    }
+
+    .btn.danger {
+      color: #2b0808;
+      background: linear-gradient(135deg, #ff9b9b, var(--danger));
+      border-color: transparent;
+    }
+
+    .toggle {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      min-height: 50px;
+      padding: 0 14px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
+    .settings {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 13px;
+      color: var(--text);
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: rgba(120, 255, 154, 0.8);
+      box-shadow: 0 0 0 4px rgba(120, 255, 154, 0.12);
+    }
+
+    .history {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
+      height: 44px;
+      margin-top: 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+    }
+
+    .history::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      display: inline-grid;
+      flex: 0 0 auto;
+      place-items: center;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 12px;
+      color: #07101d;
+      background: var(--accent);
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .practice-notes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .note {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+    }
+
+    .note h2 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .note p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .status-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .progress {
+      height: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+    }
+
+    .progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: inherit;
+      transition: width 180ms ease;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        padding: 22px;
+      }
+
+      h1 {
+        max-width: 11ch;
+      }
+
+      .screen {
+        min-height: 58svh;
+      }
+
+      .controls,
+      .settings,
+      .practice-notes {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .app {
+        padding-inline: 12px;
+      }
+
+      .quick-stats,
+      .controls,
+      .settings,
+      .practice-notes {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer {
+        padding: 12px;
+      }
+
+      .screen {
+        min-height: 54svh;
+        padding: 12px;
+      }
+
+      .court {
+        grid-template-columns: repeat(3, minmax(62px, 1fr));
+        min-height: 355px;
+        border-radius: 22px;
+      }
+
+      .actions .btn,
+      .toggles .toggle {
+        flex: 1 1 calc(50% - 6px);
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="intro panel">
+        <p class="eyebrow">Badminton footwork app</p>
+        <h1 id="page-title">First step trainer</h1>
+        <p class="lead">
+          Put this on a phone or tablet, start a round, and react to the zone number.
+          It is designed for fast first-step practice, compact solo drills, and coach-led movement sessions.
+        </p>
+
+        <div class="quick-stats" aria-label="Session summary">
+          <div class="stat">
+            <span>Current zone</span>
+            <strong id="statZone">Base</strong>
+          </div>
+          <div class="stat">
+            <span>Reps done</span>
+            <strong id="statReps">0</strong>
+          </div>
+          <div class="stat">
+            <span>Time left</span>
+            <strong id="statTime">0:00</strong>
+          </div>
+        </div>
+
+        <div class="status-line">
+          <span id="modeSummary">Random six-zone court</span>
+          <span id="paceSummary">Every 1.5s</span>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+        <div class="settings" aria-label="Trainer settings">
+          <div class="field">
+            <label for="mode">Mode</label>
+            <select id="mode">
+              <option value="random">Random</option>
+              <option value="no-repeat">No repeats</option>
+              <option value="corners">Corners only</option>
+              <option value="front-back">Front/back chain</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="pace">Cue pace</label>
+            <input id="pace" type="number" min="0.6" max="6" step="0.1" value="1.5">
+          </div>
+          <div class="field">
+            <label for="roundLength">Round seconds</label>
+            <input id="roundLength" type="number" min="10" max="600" step="5" value="60">
+          </div>
+          <div class="field">
+            <label for="startZone">Recovery</label>
+            <select id="startZone">
+              <option value="center">Center base</option>
+              <option value="last">Chain zones</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="history" id="history" aria-label="Recent zone calls"></div>
+
+        <div class="practice-notes" aria-label="How to train">
+          <article class="note">
+            <h2>1. Split step</h2>
+            <p>Start balanced at base, then react on the cue instead of guessing early.</p>
+          </article>
+          <article class="note">
+            <h2>2. Touch zone</h2>
+            <p>Move one decisive first step toward the lit zone, then recover with control.</p>
+          </article>
+          <article class="note">
+            <h2>3. Increase speed</h2>
+            <p>Lower the cue pace only after your first step stays sharp and clean.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="trainer panel">
+        <div class="screen" id="screen">
+          <div class="countdown" id="countdown" aria-live="assertive"></div>
+          <div class="court" aria-label="Numbered badminton movement zones">
+            <div class="zone" data-zone="1" aria-label="Zone 1 front left">1</div>
+            <div class="zone" data-zone="2" aria-label="Zone 2 front middle">2</div>
+            <div class="zone" data-zone="3" aria-label="Zone 3 front right">3</div>
+            <div class="zone" data-zone="4" aria-label="Zone 4 back left">4</div>
+            <div class="zone" data-zone="5" aria-label="Zone 5 back middle">5</div>
+            <div class="zone" data-zone="6" aria-label="Zone 6 back right">6</div>
+          </div>
+          <div class="center-card" aria-hidden="true">
+            <div>
+              <div class="main-number" id="mainNumber">0</div>
+              <div class="center-label" id="centerLabel">Ready</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="actions">
+            <button class="btn primary" id="startBtn" type="button">Start round</button>
+            <button class="btn" id="pauseBtn" type="button" disabled>Pause</button>
+            <button class="btn" id="nextBtn" type="button">Next cue</button>
+            <button class="btn danger" id="resetBtn" type="button">Reset</button>
+          </div>
+          <div class="toggles" aria-label="Cue options">
+            <label class="toggle">
+              <input id="soundToggle" type="checkbox" checked>
+              Sound
+            </label>
+            <label class="toggle">
+              <input id="voiceToggle" type="checkbox">
+              Voice
+            </label>
+            <label class="toggle">
+              <input id="fullscreenToggle" type="checkbox">
+              Fullscreen
+            </label>
+          </div>
+        </div>
+        <p class="sr-only" id="liveCue" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const zones = [...document.querySelectorAll(".zone")];
+    const els = {
+      centerLabel: document.querySelector("#centerLabel"),
+      countdown: document.querySelector("#countdown"),
+      fullscreenToggle: document.querySelector("#fullscreenToggle"),
+      history: document.querySelector("#history"),
+      liveCue: document.querySelector("#liveCue"),
+      mainNumber: document.querySelector("#mainNumber"),
+      mode: document.querySelector("#mode"),
+      modeSummary: document.querySelector("#modeSummary"),
+      nextBtn: document.querySelector("#nextBtn"),
+      pace: document.querySelector("#pace"),
+      paceSummary: document.querySelector("#paceSummary"),
+      pauseBtn: document.querySelector("#pauseBtn"),
+      progressBar: document.querySelector("#progressBar"),
+      resetBtn: document.querySelector("#resetBtn"),
+      roundLength: document.querySelector("#roundLength"),
+      screen: document.querySelector("#screen"),
+      soundToggle: document.querySelector("#soundToggle"),
+      startBtn: document.querySelector("#startBtn"),
+      startZone: document.querySelector("#startZone"),
+      statReps: document.querySelector("#statReps"),
+      statTime: document.querySelector("#statTime"),
+      statZone: document.querySelector("#statZone"),
+      voiceToggle: document.querySelector("#voiceToggle")
+    };
+
+    const modeZones = {
+      random: [1, 2, 3, 4, 5, 6],
+      "no-repeat": [1, 2, 3, 4, 5, 6],
+      corners: [1, 3, 4, 6],
+      "front-back": [1, 2, 3, 4, 5, 6]
+    };
+
+    const modeLabels = {
+      random: "Random six-zone court",
+      "no-repeat": "Random with no back-to-back repeats",
+      corners: "Corner movement only",
+      "front-back": "Alternating front and back zones"
+    };
+
+    let audioContext;
+    let cueTimer;
+    let recoveryTimer;
+    let tickTimer;
+    let wakeLock;
+
+    const state = {
+      activeZone: null,
+      elapsed: 0,
+      history: [],
+      isPaused: false,
+      isRunning: false,
+      reps: 0,
+      roundStartedAt: 0
+    };
+
+    function getPaceMs() {
+      return Math.max(0.6, Number(els.pace.value) || 1.5) * 1000;
+    }
+
+    function getRoundLength() {
+      return Math.max(10, Number(els.roundLength.value) || 60);
+    }
+
+    function chooseZone() {
+      const mode = els.mode.value;
+      const pool = modeZones[mode];
+
+      if (mode === "front-back" && state.activeZone) {
+        const front = [1, 2, 3];
+        const back = [4, 5, 6];
+        const nextPool = front.includes(state.activeZone) ? back : front;
+        return sample(nextPool);
+      }
+
+      if (mode === "no-repeat" && state.activeZone && pool.length > 1) {
+        return sample(pool.filter((zone) => zone !== state.activeZone));
+      }
+
+      return sample(pool);
+    }
+
+    function sample(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function callNextZone() {
+      const zone = chooseZone();
+      state.activeZone = zone;
+      state.reps += 1;
+      state.history.unshift(zone);
+      state.history = state.history.slice(0, 12);
+      renderZone();
+      playCue(zone);
+      scheduleRecoveryCue();
+    }
+
+    function renderZone() {
+      zones.forEach((el) => {
+        const value = Number(el.dataset.zone);
+        el.classList.toggle("is-active", value === state.activeZone);
+        el.classList.toggle("is-recent", state.history.slice(1, 4).includes(value));
+      });
+
+      els.mainNumber.textContent = state.activeZone || "0";
+      els.centerLabel.textContent = state.isRunning ? "Move now" : "Ready";
+      els.statZone.textContent = state.activeZone || "Base";
+      els.statReps.textContent = state.reps;
+      els.liveCue.textContent = state.activeZone ? `Zone ${state.activeZone}` : "Ready";
+      els.history.innerHTML = state.history
+        .map((zone) => `<span class="chip">${zone}</span>`)
+        .join("");
+      renderTime();
+    }
+
+    function renderTime() {
+      const total = getRoundLength();
+      const remaining = Math.max(0, total - state.elapsed);
+      const minutes = Math.floor(remaining / 60);
+      const seconds = String(remaining % 60).padStart(2, "0");
+      els.statTime.textContent = `${minutes}:${seconds}`;
+      els.progressBar.style.width = `${Math.min(100, (state.elapsed / total) * 100)}%`;
+    }
+
+    function updateSummaries() {
+      els.modeSummary.textContent = modeLabels[els.mode.value];
+      els.paceSummary.textContent = `Every ${Number(els.pace.value).toFixed(1)}s`;
+    }
+
+    async function startRound() {
+      if (state.isPaused) {
+        resumeRound();
+        return;
+      }
+
+      resetRound(true);
+      await showCountdown();
+      state.isRunning = true;
+      state.isPaused = false;
+      state.roundStartedAt = Date.now();
+      els.startBtn.textContent = "Running";
+      els.startBtn.disabled = true;
+      els.pauseBtn.disabled = false;
+      await requestWakeLock();
+      callNextZone();
+      cueTimer = setInterval(callNextZone, getPaceMs());
+      tickTimer = setInterval(trackElapsed, 250);
+    }
+
+    function pauseRound() {
+      if (!state.isRunning) {
+        return;
+      }
+
+      state.isPaused = true;
+      state.isRunning = false;
+      clearInterval(cueTimer);
+      clearTimeout(recoveryTimer);
+      clearInterval(tickTimer);
+      els.startBtn.disabled = false;
+      els.startBtn.textContent = "Resume";
+      els.pauseBtn.disabled = true;
+      els.centerLabel.textContent = "Paused";
+      releaseWakeLock();
+    }
+
+    function resumeRound() {
+      state.isRunning = true;
+      state.isPaused = false;
+      state.roundStartedAt = Date.now() - state.elapsed * 1000;
+      els.startBtn.textContent = "Running";
+      els.startBtn.disabled = true;
+      els.pauseBtn.disabled = false;
+      callNextZone();
+      cueTimer = setInterval(callNextZone, getPaceMs());
+      tickTimer = setInterval(trackElapsed, 250);
+      requestWakeLock();
+    }
+
+    function resetRound(clearHistory = true) {
+      clearInterval(cueTimer);
+      clearTimeout(recoveryTimer);
+      clearInterval(tickTimer);
+      state.activeZone = null;
+      state.elapsed = 0;
+      state.isPaused = false;
+      state.isRunning = false;
+      state.reps = 0;
+      if (clearHistory) {
+        state.history = [];
+      }
+      els.startBtn.disabled = false;
+      els.startBtn.textContent = "Start round";
+      els.pauseBtn.disabled = true;
+      releaseWakeLock();
+      renderZone();
+    }
+
+    function trackElapsed() {
+      state.elapsed = Math.floor((Date.now() - state.roundStartedAt) / 1000);
+      renderTime();
+
+      if (state.elapsed >= getRoundLength()) {
+        finishRound();
+      }
+    }
+
+    function finishRound() {
+      clearInterval(cueTimer);
+      clearTimeout(recoveryTimer);
+      clearInterval(tickTimer);
+      state.isRunning = false;
+      state.isPaused = false;
+      els.startBtn.disabled = false;
+      els.startBtn.textContent = "Start again";
+      els.pauseBtn.disabled = true;
+      els.centerLabel.textContent = "Round done";
+      releaseWakeLock();
+      playFinish();
+    }
+
+    function scheduleRecoveryCue() {
+      clearTimeout(recoveryTimer);
+
+      if (!state.isRunning) {
+        return;
+      }
+
+      const recoveryText = els.startZone.value === "center" ? "Return base" : "Chain from zone";
+      recoveryTimer = setTimeout(() => {
+        if (state.isRunning) {
+          els.centerLabel.textContent = recoveryText;
+        }
+      }, Math.max(260, getPaceMs() * 0.45));
+    }
+
+    function showCountdown() {
+      let count = 3;
+      els.countdown.textContent = count;
+      els.countdown.classList.add("is-visible");
+      playTone(420, 0.08);
+
+      return new Promise((resolve) => {
+        const timer = setInterval(() => {
+          count -= 1;
+          if (count === 0) {
+            clearInterval(timer);
+            els.countdown.classList.remove("is-visible");
+            resolve();
+            return;
+          }
+          els.countdown.textContent = count;
+          playTone(420, 0.08);
+        }, 700);
+      });
+    }
+
+    function playCue(zone) {
+      if (els.soundToggle.checked) {
+        playTone(520 + zone * 35, 0.09);
+      }
+
+      if (els.voiceToggle.checked && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(String(zone));
+        utterance.rate = 1.25;
+        utterance.pitch = 1.05;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    function playFinish() {
+      if (!els.soundToggle.checked) {
+        return;
+      }
+      playTone(760, 0.08);
+      setTimeout(() => playTone(960, 0.14), 110);
+    }
+
+    function playTone(frequency, seconds) {
+      if (!els.soundToggle.checked) {
+        return;
+      }
+
+      audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      oscillator.frequency.value = frequency;
+      oscillator.type = "sine";
+      gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.12, audioContext.currentTime + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + seconds);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + seconds + 0.02);
+    }
+
+    async function requestWakeLock() {
+      if (!("wakeLock" in navigator)) {
+        return;
+      }
+
+      try {
+        wakeLock = await navigator.wakeLock.request("screen");
+      } catch (error) {
+        wakeLock = null;
+      }
+    }
+
+    function releaseWakeLock() {
+      if (wakeLock) {
+        wakeLock.release();
+        wakeLock = null;
+      }
+    }
+
+    async function syncFullscreen() {
+      if (els.fullscreenToggle.checked && !document.fullscreenElement) {
+        await els.screen.requestFullscreen?.();
+      } else if (!els.fullscreenToggle.checked && document.fullscreenElement) {
+        await document.exitFullscreen?.();
+      }
+    }
+
+    els.startBtn.addEventListener("click", startRound);
+    els.pauseBtn.addEventListener("click", pauseRound);
+    els.resetBtn.addEventListener("click", () => resetRound(true));
+    els.nextBtn.addEventListener("click", () => {
+      if (!state.isRunning) {
+        state.reps = Math.max(0, state.reps);
+      }
+      callNextZone();
+    });
+
+    [els.mode, els.pace, els.roundLength, els.startZone].forEach((el) => {
+      el.addEventListener("change", () => {
+        updateSummaries();
+        renderTime();
+        if (state.isRunning && el === els.pace) {
+          clearInterval(cueTimer);
+          cueTimer = setInterval(callNextZone, getPaceMs());
+        }
+      });
+    });
+
+    els.fullscreenToggle.addEventListener("change", () => {
+      syncFullscreen().catch(() => {
+        els.fullscreenToggle.checked = false;
+      });
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      els.fullscreenToggle.checked = Boolean(document.fullscreenElement);
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && state.isRunning) {
+        requestWakeLock();
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.target.matches("input, select, textarea")) {
+        return;
+      }
+
+      if (event.code === "Space") {
+        event.preventDefault();
+        state.isRunning ? pauseRound() : startRound();
+      }
+
+      if (event.key.toLowerCase() === "n") {
+        callNextZone();
+      }
+
+      if (event.key.toLowerCase() === "r") {
+        resetRound(true);
+      }
+    });
+
+    updateSummaries();
+    renderZone();
+  </script>
+</body>
+</html>
