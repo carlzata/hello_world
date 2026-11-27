@@ -190,39 +190,14 @@
     .court {
       position: relative;
       display: grid;
-      grid-template-columns: repeat(3, minmax(84px, 1fr));
-      grid-template-rows: repeat(2, minmax(118px, 1fr));
-      width: min(100%, 610px);
-      min-height: clamp(300px, 48vw, 520px);
+      grid-template-columns: repeat(2, minmax(96px, 1fr));
+      grid-template-rows: repeat(3, minmax(104px, 1fr));
+      width: min(100%, 500px);
+      min-height: clamp(430px, 54vw, 620px);
       overflow: hidden;
       border: 3px solid rgba(246, 248, 251, 0.78);
       border-radius: 28px;
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.24), 0 26px 80px rgba(0, 0, 0, 0.35);
-    }
-
-    .court::before,
-    .court::after {
-      position: absolute;
-      z-index: 0;
-      content: "";
-      background: rgba(255, 255, 255, 0.38);
-      pointer-events: none;
-    }
-
-    .court::before {
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      transform: translateY(-50%);
-    }
-
-    .court::after {
-      top: 0;
-      left: 50%;
-      width: 2px;
-      height: 100%;
-      transform: translateX(-50%);
     }
 
     .zone {
@@ -234,15 +209,19 @@
       color: rgba(255, 255, 255, 0.36);
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0));
       border-right: 2px solid rgba(255, 255, 255, 0.3);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.3);
       font-size: clamp(2.2rem, 10vw, 5.3rem);
       font-weight: 900;
       letter-spacing: -0.08em;
       transition: background 160ms ease, color 160ms ease, transform 160ms ease;
     }
 
-    .zone:nth-child(3),
-    .zone:nth-child(6) {
+    .zone:nth-child(even) {
       border-right: 0;
+    }
+
+    .zone:nth-child(n + 5) {
+      border-bottom: 0;
     }
 
     .zone.is-active {
@@ -263,19 +242,19 @@
       z-index: 3;
       display: grid;
       place-items: center;
-      width: clamp(132px, 24vw, 210px);
-      height: clamp(132px, 24vw, 210px);
+      width: clamp(96px, 18vw, 154px);
+      height: clamp(96px, 18vw, 154px);
       text-align: center;
       pointer-events: none;
       background: rgba(8, 17, 31, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 36px;
+      border-radius: 26px;
       box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(12px);
     }
 
     .main-number {
-      font-size: clamp(5rem, 17vw, 10rem);
+      font-size: clamp(4rem, 12vw, 7.8rem);
       font-weight: 950;
       line-height: 0.82;
       letter-spacing: -0.1em;
@@ -544,8 +523,9 @@
       }
 
       .court {
-        grid-template-columns: repeat(3, minmax(62px, 1fr));
-        min-height: 355px;
+        grid-template-columns: repeat(2, minmax(72px, 1fr));
+        grid-template-rows: repeat(3, minmax(94px, 1fr));
+        min-height: 430px;
         border-radius: 22px;
       }
 
@@ -639,10 +619,10 @@
           <div class="countdown" id="countdown" aria-live="assertive"></div>
           <div class="court" aria-label="Numbered badminton movement zones">
             <div class="zone" data-zone="1" aria-label="Zone 1 front left">1</div>
-            <div class="zone" data-zone="2" aria-label="Zone 2 front middle">2</div>
-            <div class="zone" data-zone="3" aria-label="Zone 3 front right">3</div>
-            <div class="zone" data-zone="4" aria-label="Zone 4 back left">4</div>
-            <div class="zone" data-zone="5" aria-label="Zone 5 back middle">5</div>
+            <div class="zone" data-zone="2" aria-label="Zone 2 front right">2</div>
+            <div class="zone" data-zone="3" aria-label="Zone 3 middle left">3</div>
+            <div class="zone" data-zone="4" aria-label="Zone 4 middle right">4</div>
+            <div class="zone" data-zone="5" aria-label="Zone 5 back left">5</div>
             <div class="zone" data-zone="6" aria-label="Zone 6 back right">6</div>
           </div>
           <div class="center-card" aria-hidden="true">
@@ -711,8 +691,8 @@
     const modeZones = {
       random: [1, 2, 3, 4, 5, 6],
       "no-repeat": [1, 2, 3, 4, 5, 6],
-      corners: [1, 3, 4, 6],
-      "front-back": [1, 2, 3, 4, 5, 6]
+      corners: [1, 2, 5, 6],
+      "front-back": [1, 2, 5, 6]
     };
 
     const modeLabels = {
@@ -751,8 +731,8 @@
       const pool = modeZones[mode];
 
       if (mode === "front-back" && state.activeZone) {
-        const front = [1, 2, 3];
-        const back = [4, 5, 6];
+        const front = [1, 2];
+        const back = [5, 6];
         const nextPool = front.includes(state.activeZone) ? back : front;
         return sample(nextPool);
       }
@@ -773,7 +753,7 @@
       state.activeZone = zone;
       state.reps += 1;
       state.history.unshift(zone);
-      state.history = state.history.slice(0, 12);
+      state.history = state.history.slice(0, 7);
       renderZone();
       playCue(zone);
       scheduleRecoveryCue();

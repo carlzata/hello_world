@@ -4,7 +4,7 @@ A mobile-first badminton footwork trainer inspired by numbered-zone reaction dri
 
 ## Features
 
-- Six-zone badminton court display
+- Six-zone 2-by-3 badminton court display
 - Random, no-repeat, corner-only, and front/back chain modes
 - Configurable cue pace and round length
 - Countdown, progress, rep count, recent cue history
